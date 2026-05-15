@@ -236,41 +236,31 @@ def AddDebugInfo : Pass<"add-debug-info", "mlir::ModuleOp"> {
     "fir::FIROpsDialect", "mlir::func::FuncDialect", "mlir::LLVM::LLVMDialect",
     "mlir::DLTIDialect"
   ];
-  let options = [
-    Option<"debugLevel", "debug-level",
-           "mlir::LLVM::DIEmissionKind",
-           /*default=*/"mlir::LLVM::DIEmissionKind::Full",
-           "debug level",
-           [{::llvm::cl::values(
+  let options =
+      [Option<"debugLevel", "debug-level", "mlir::LLVM::DIEmissionKind",
+              /*default=*/"mlir::LLVM::DIEmissionKind::Full", "debug level",
+              [{::llvm::cl::values(
             clEnumValN(mlir::LLVM::DIEmissionKind::Full, "Full", "Emit full debug info"),
             clEnumValN(mlir::LLVM::DIEmissionKind::LineTablesOnly, "LineTablesOnly", "Emit line tables only"),
             clEnumValN(mlir::LLVM::DIEmissionKind::None, "None", "Emit no debug information")
-          )}]
-           >,
-    Option<"isOptimized", "is-optimized",
-           "bool", /*default=*/"false",
-           "is optimized.">,
-    Option<"debugInfoForProfiling", "debug-info-for-profiling", "bool",
-           /*default=*/"false",
-            "Emit extra debug info to make sample profile more accurate">,
-    Option<"inputFilename", "file-name",
-           "std::string",
-           /*default=*/"std::string{}",
-           "name of the input source file">,
-    Option<"dwarfVersion", "dwarf-version",
-           "int32_t",
-           /*default=*/"0",
-           "dwarf version">,
-    Option<"splitDwarfFile", "split-dwarf-file",
-           "std::string", /*default=*/"std::string{}",
-           "Name of the split dwarf file">,
-    Option<"dwarfDebugFlags", "dwarf-debug-flags",
-           "std::string", /*default=*/"std::string{}",
-           "Command-line flags to append to DWARF producer">,
-    Option<"emitFakeUseForArguments", "emit-fake-use-for-arguments",
-           "bool", /*default=*/"false",
-           "Emit fake use for function arguments to extend their lifetime">
-  ];
+          )}]>,
+       Option<"isOptimized", "is-optimized", "bool", /*default=*/"false",
+              "is optimized.">,
+       Option<"debugInfoForProfiling", "debug-info-for-profiling", "bool",
+              /*default=*/"false",
+              "Emit extra debug info to make sample profile more accurate">,
+       Option<"inputFilename", "file-name", "std::string",
+              /*default=*/"std::string{}", "name of the input source file">,
+       Option<"dwarfVersion", "dwarf-version", "int32_t",
+              /*default=*/"0", "dwarf version">,
+       Option<"splitDwarfFile", "split-dwarf-file", "std::string",
+              /*default=*/"std::string{}", "Name of the split dwarf file">,
+       Option<"dwarfDebugFlags", "dwarf-debug-flags", "std::string",
+              /*default=*/"std::string{}",
+              "Command-line flags to append to DWARF producer">,
+       Option<"emitFakeUseForDebugVars", "emit-fake-use-for-debug-vars", "bool",
+              /*default=*/"false",
+              "Emit fake use for debug variables to extend their lifetime">];
 }
 
 // This needs to be a "mlir::ModuleOp" pass, because it inserts simplified
